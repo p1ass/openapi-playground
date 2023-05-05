@@ -24,9 +24,6 @@ func (s *APIKey) SetAPIKey(val string) {
 	s.APIKey = val
 }
 
-// AddPetMethodNotAllowed is response for AddPet operation.
-type AddPetMethodNotAllowed struct{}
-
 // Ref: #/components/schemas/Address
 type Address struct {
 	City    OptString `json:"city"`
@@ -203,33 +200,51 @@ func (s *CreateUsersWithListInputDef) SetStatusCode(val int) {
 	s.StatusCode = val
 }
 
-// DeleteOrderBadRequest is response for DeleteOrder operation.
-type DeleteOrderBadRequest struct{}
+type DeleteOrderBadRequest Error
 
 func (*DeleteOrderBadRequest) deleteOrderRes() {}
 
-// DeleteOrderNotFound is response for DeleteOrder operation.
-type DeleteOrderNotFound struct{}
+type DeleteOrderNotFound Error
 
 func (*DeleteOrderNotFound) deleteOrderRes() {}
 
-// DeletePetBadRequest is response for DeletePet operation.
-type DeletePetBadRequest struct{}
-
-// DeleteUserBadRequest is response for DeleteUser operation.
-type DeleteUserBadRequest struct{}
+type DeleteUserBadRequest Error
 
 func (*DeleteUserBadRequest) deleteUserRes() {}
 
-// DeleteUserNotFound is response for DeleteUser operation.
-type DeleteUserNotFound struct{}
+type DeleteUserNotFound Error
 
 func (*DeleteUserNotFound) deleteUserRes() {}
 
-// FindPetsByStatusBadRequest is response for FindPetsByStatus operation.
-type FindPetsByStatusBadRequest struct{}
+// Ref: #/components/schemas/Error
+type Error struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
 
-func (*FindPetsByStatusBadRequest) findPetsByStatusRes() {}
+// GetCode returns the value of Code.
+func (s *Error) GetCode() int {
+	return s.Code
+}
+
+// GetMessage returns the value of Message.
+func (s *Error) GetMessage() string {
+	return s.Message
+}
+
+// SetCode sets the value of Code.
+func (s *Error) SetCode(val int) {
+	s.Code = val
+}
+
+// SetMessage sets the value of Message.
+func (s *Error) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*Error) findPetsByStatusRes() {}
+func (*Error) findPetsByTagsRes()   {}
+func (*Error) loginUserRes()        {}
 
 type FindPetsByStatusOKApplicationJSON []Pet
 
@@ -274,11 +289,6 @@ func (s *FindPetsByStatusStatusItem) UnmarshalText(data []byte) error {
 	}
 }
 
-// FindPetsByTagsBadRequest is response for FindPetsByTags operation.
-type FindPetsByTagsBadRequest struct{}
-
-func (*FindPetsByTagsBadRequest) findPetsByTagsRes() {}
-
 type FindPetsByTagsOKApplicationJSON []Pet
 
 func (*FindPetsByTagsOKApplicationJSON) findPetsByTagsRes() {}
@@ -294,42 +304,31 @@ func (s *GetInventoryOK) init() GetInventoryOK {
 	return m
 }
 
-// GetOrderByIdBadRequest is response for GetOrderById operation.
-type GetOrderByIdBadRequest struct{}
+type GetOrderByIdBadRequest Error
 
 func (*GetOrderByIdBadRequest) getOrderByIdRes() {}
 
-// GetOrderByIdNotFound is response for GetOrderById operation.
-type GetOrderByIdNotFound struct{}
+type GetOrderByIdNotFound Error
 
 func (*GetOrderByIdNotFound) getOrderByIdRes() {}
 
-// GetPetByIdBadRequest is response for GetPetById operation.
-type GetPetByIdBadRequest struct{}
+type GetPetByIdBadRequest Error
 
 func (*GetPetByIdBadRequest) getPetByIdRes() {}
 
-// GetPetByIdNotFound is response for GetPetById operation.
-type GetPetByIdNotFound struct{}
+type GetPetByIdNotFound Error
 
 func (*GetPetByIdNotFound) getPetByIdRes() {}
 
-// GetUserByNameBadRequest is response for GetUserByName operation.
-type GetUserByNameBadRequest struct{}
+type GetUserByNameBadRequest Error
 
 func (*GetUserByNameBadRequest) getUserByNameRes() {}
 
-// GetUserByNameNotFound is response for GetUserByName operation.
-type GetUserByNameNotFound struct{}
+type GetUserByNameNotFound Error
 
 func (*GetUserByNameNotFound) getUserByNameRes() {}
 
 type ID int64
-
-// LoginUserBadRequest is response for LoginUser operation.
-type LoginUserBadRequest struct{}
-
-func (*LoginUserBadRequest) loginUserRes() {}
 
 // LoginUserOKHeaders wraps string with response headers.
 type LoginUserOKHeaders struct {
@@ -1415,23 +1414,17 @@ func (s *Tag) SetName(val OptString) {
 	s.Name = val
 }
 
-// UpdatePetBadRequest is response for UpdatePet operation.
-type UpdatePetBadRequest struct{}
+type UpdatePetBadRequest Error
 
 func (*UpdatePetBadRequest) updatePetRes() {}
 
-// UpdatePetMethodNotAllowed is response for UpdatePet operation.
-type UpdatePetMethodNotAllowed struct{}
+type UpdatePetMethodNotAllowed Error
 
 func (*UpdatePetMethodNotAllowed) updatePetRes() {}
 
-// UpdatePetNotFound is response for UpdatePet operation.
-type UpdatePetNotFound struct{}
+type UpdatePetNotFound Error
 
 func (*UpdatePetNotFound) updatePetRes() {}
-
-// UpdatePetWithFormMethodNotAllowed is response for UpdatePetWithForm operation.
-type UpdatePetWithFormMethodNotAllowed struct{}
 
 type UpdatePetWithFormReq struct {
 	// Updated name of the pet.
@@ -1460,13 +1453,11 @@ func (s *UpdatePetWithFormReq) SetStatus(val OptString) {
 	s.Status = val
 }
 
-// UpdateUserBadRequest is response for UpdateUser operation.
-type UpdateUserBadRequest struct{}
+type UpdateUserBadRequest Error
 
 func (*UpdateUserBadRequest) updateUserRes() {}
 
-// UpdateUserNotFound is response for UpdateUser operation.
-type UpdateUserNotFound struct{}
+type UpdateUserNotFound Error
 
 func (*UpdateUserNotFound) updateUserRes() {}
 

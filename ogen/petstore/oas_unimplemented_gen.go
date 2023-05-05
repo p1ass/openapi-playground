@@ -18,8 +18,8 @@ var _ Handler = UnimplementedHandler{}
 // Add new pet to the store inventory.
 //
 // POST /pet
-func (UnimplementedHandler) AddPet(ctx context.Context, req *Pet, params AddPetParams) error {
-	return ht.ErrNotImplemented
+func (UnimplementedHandler) AddPet(ctx context.Context, req *Pet, params AddPetParams) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
 }
 
 // CreateUser implements createUser operation.
@@ -64,8 +64,8 @@ func (UnimplementedHandler) DeleteOrder(ctx context.Context, params DeleteOrderP
 // Deletes a pet.
 //
 // DELETE /pet/{petId}
-func (UnimplementedHandler) DeletePet(ctx context.Context, params DeletePetParams) error {
-	return ht.ErrNotImplemented
+func (UnimplementedHandler) DeletePet(ctx context.Context, params DeletePetParams) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
 }
 
 // DeleteUser implements deleteUser operation.
@@ -174,8 +174,8 @@ func (UnimplementedHandler) UpdatePet(ctx context.Context, req *Pet, params Upda
 // Updates a pet in the store with form data.
 //
 // POST /pet/{petId}
-func (UnimplementedHandler) UpdatePetWithForm(ctx context.Context, req OptUpdatePetWithFormReq, params UpdatePetWithFormParams) error {
-	return ht.ErrNotImplemented
+func (UnimplementedHandler) UpdatePetWithForm(ctx context.Context, req OptUpdatePetWithFormReq, params UpdatePetWithFormParams) (r *Error, _ error) {
+	return r, ht.ErrNotImplemented
 }
 
 // UpdateUser implements updateUser operation.

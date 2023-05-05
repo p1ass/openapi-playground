@@ -13,7 +13,7 @@ type Handler interface {
 	// Add new pet to the store inventory.
 	//
 	// POST /pet
-	AddPet(ctx context.Context, req *Pet, params AddPetParams) error
+	AddPet(ctx context.Context, req *Pet, params AddPetParams) (*Error, error)
 	// CreateUser implements createUser operation.
 	//
 	// This can only be done by the logged in user.
@@ -44,7 +44,7 @@ type Handler interface {
 	// Deletes a pet.
 	//
 	// DELETE /pet/{petId}
-	DeletePet(ctx context.Context, params DeletePetParams) error
+	DeletePet(ctx context.Context, params DeletePetParams) (*Error, error)
 	// DeleteUser implements deleteUser operation.
 	//
 	// This can only be done by the logged in user.
@@ -118,7 +118,7 @@ type Handler interface {
 	// Updates a pet in the store with form data.
 	//
 	// POST /pet/{petId}
-	UpdatePetWithForm(ctx context.Context, req OptUpdatePetWithFormReq, params UpdatePetWithFormParams) error
+	UpdatePetWithForm(ctx context.Context, req OptUpdatePetWithFormReq, params UpdatePetWithFormParams) (*Error, error)
 	// UpdateUser implements updateUser operation.
 	//
 	// This can only be done by the logged in user.

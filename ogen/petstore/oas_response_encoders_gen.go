@@ -15,10 +15,16 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
-func encodeAddPetResponse(response *AddPetMethodNotAllowed, w http.ResponseWriter, span trace.Span) error {
+func encodeAddPetResponse(response *Error, w http.ResponseWriter, span trace.Span) error {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(405)
 	span.SetStatus(codes.Error, http.StatusText(405))
 
+	e := jx.GetEncoder()
+	response.Encode(e)
+	if _, err := e.WriteTo(w); err != nil {
+		return errors.Wrap(err, "write")
+	}
 	return nil
 }
 
@@ -76,15 +82,27 @@ func encodeCreateUsersWithListInputResponse(response *CreateUsersWithListInputDe
 func encodeDeleteOrderResponse(response DeleteOrderRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *DeleteOrderBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *DeleteOrderNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -92,25 +110,43 @@ func encodeDeleteOrderResponse(response DeleteOrderRes, w http.ResponseWriter, s
 	}
 }
 
-func encodeDeletePetResponse(response *DeletePetBadRequest, w http.ResponseWriter, span trace.Span) error {
+func encodeDeletePetResponse(response *Error, w http.ResponseWriter, span trace.Span) error {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(400)
 	span.SetStatus(codes.Error, http.StatusText(400))
 
+	e := jx.GetEncoder()
+	response.Encode(e)
+	if _, err := e.WriteTo(w); err != nil {
+		return errors.Wrap(err, "write")
+	}
 	return nil
 }
 
 func encodeDeleteUserResponse(response DeleteUserRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *DeleteUserBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *DeleteUserNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -132,10 +168,16 @@ func encodeFindPetsByStatusResponse(response FindPetsByStatusRes, w http.Respons
 		}
 		return nil
 
-	case *FindPetsByStatusBadRequest:
+	case *Error:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -157,10 +199,16 @@ func encodeFindPetsByTagsResponse(response FindPetsByTagsRes, w http.ResponseWri
 		}
 		return nil
 
-	case *FindPetsByTagsBadRequest:
+	case *Error:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -196,15 +244,27 @@ func encodeGetOrderByIdResponse(response GetOrderByIdRes, w http.ResponseWriter,
 		return nil
 
 	case *GetOrderByIdBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *GetOrderByIdNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -227,15 +287,27 @@ func encodeGetPetByIdResponse(response GetPetByIdRes, w http.ResponseWriter, spa
 		return nil
 
 	case *GetPetByIdBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *GetPetByIdNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -258,15 +330,27 @@ func encodeGetUserByNameResponse(response GetUserByNameRes, w http.ResponseWrite
 		return nil
 
 	case *GetUserByNameBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *GetUserByNameNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -367,10 +451,16 @@ func encodeLoginUserResponse(response LoginUserRes, w http.ResponseWriter, span 
 		}
 		return nil
 
-	case *LoginUserBadRequest:
+	case *Error:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -411,21 +501,39 @@ func encodeStoreSubscribePostResponse(response *StoreSubscribePostCreated, w htt
 func encodeUpdatePetResponse(response UpdatePetRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *UpdatePetBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *UpdatePetNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *UpdatePetMethodNotAllowed:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(405)
 		span.SetStatus(codes.Error, http.StatusText(405))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:
@@ -433,25 +541,43 @@ func encodeUpdatePetResponse(response UpdatePetRes, w http.ResponseWriter, span 
 	}
 }
 
-func encodeUpdatePetWithFormResponse(response *UpdatePetWithFormMethodNotAllowed, w http.ResponseWriter, span trace.Span) error {
+func encodeUpdatePetWithFormResponse(response *Error, w http.ResponseWriter, span trace.Span) error {
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(405)
 	span.SetStatus(codes.Error, http.StatusText(405))
 
+	e := jx.GetEncoder()
+	response.Encode(e)
+	if _, err := e.WriteTo(w); err != nil {
+		return errors.Wrap(err, "write")
+	}
 	return nil
 }
 
 func encodeUpdateUserResponse(response UpdateUserRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
 	case *UpdateUserBadRequest:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
 		span.SetStatus(codes.Error, http.StatusText(400))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	case *UpdateUserNotFound:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(404)
 		span.SetStatus(codes.Error, http.StatusText(404))
 
+		e := jx.GetEncoder()
+		response.Encode(e)
+		if _, err := e.WriteTo(w); err != nil {
+			return errors.Wrap(err, "write")
+		}
 		return nil
 
 	default:

@@ -128,6 +128,57 @@ func (s *Category) Validate() error {
 	}
 	return nil
 }
+func (s *DeleteOrderBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *DeleteOrderNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *DeleteUserBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *DeleteUserNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *Error) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           400,
+			MaxSet:        true,
+			Max:           599,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+		}).Validate(int64(s.Code)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "code",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s FindPetsByStatusOKApplicationJSON) Validate() error {
 	if s == nil {
 		return errors.New("nil is invalid value")
@@ -191,6 +242,42 @@ func (s GetInventoryOK) Validate() error {
 
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetOrderByIdBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *GetOrderByIdNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *GetPetByIdBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *GetPetByIdNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *GetUserByNameBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *GetUserByNameNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
 	}
 	return nil
 }
@@ -445,6 +532,36 @@ func (s *Tag) Validate() error {
 	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdatePetBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *UpdatePetMethodNotAllowed) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *UpdatePetNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *UpdateUserBadRequest) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+func (s *UpdateUserNotFound) Validate() error {
+	if err := s.Validate(); err != nil {
+		return err
 	}
 	return nil
 }

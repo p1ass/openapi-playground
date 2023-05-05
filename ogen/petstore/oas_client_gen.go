@@ -78,13 +78,13 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // Add new pet to the store inventory.
 //
 // POST /pet
-func (c *Client) AddPet(ctx context.Context, request *Pet, params AddPetParams) error {
+func (c *Client) AddPet(ctx context.Context, request *Pet, params AddPetParams) (*Error, error) {
 	res, err := c.sendAddPet(ctx, request, params)
 	_ = res
-	return err
+	return res, err
 }
 
-func (c *Client) sendAddPet(ctx context.Context, request *Pet, params AddPetParams) (res *AddPetMethodNotAllowed, err error) {
+func (c *Client) sendAddPet(ctx context.Context, request *Pet, params AddPetParams) (res *Error, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("addPet"),
 	}
@@ -562,13 +562,13 @@ func (c *Client) sendDeleteOrder(ctx context.Context, params DeleteOrderParams) 
 // Deletes a pet.
 //
 // DELETE /pet/{petId}
-func (c *Client) DeletePet(ctx context.Context, params DeletePetParams) error {
+func (c *Client) DeletePet(ctx context.Context, params DeletePetParams) (*Error, error) {
 	res, err := c.sendDeletePet(ctx, params)
 	_ = res
-	return err
+	return res, err
 }
 
-func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res *DeletePetBadRequest, err error) {
+func (c *Client) sendDeletePet(ctx context.Context, params DeletePetParams) (res *Error, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("deletePet"),
 	}
@@ -1724,13 +1724,13 @@ func (c *Client) sendUpdatePet(ctx context.Context, request *Pet, params UpdateP
 // Updates a pet in the store with form data.
 //
 // POST /pet/{petId}
-func (c *Client) UpdatePetWithForm(ctx context.Context, request OptUpdatePetWithFormReq, params UpdatePetWithFormParams) error {
+func (c *Client) UpdatePetWithForm(ctx context.Context, request OptUpdatePetWithFormReq, params UpdatePetWithFormParams) (*Error, error) {
 	res, err := c.sendUpdatePetWithForm(ctx, request, params)
 	_ = res
-	return err
+	return res, err
 }
 
-func (c *Client) sendUpdatePetWithForm(ctx context.Context, request OptUpdatePetWithFormReq, params UpdatePetWithFormParams) (res *UpdatePetWithFormMethodNotAllowed, err error) {
+func (c *Client) sendUpdatePetWithForm(ctx context.Context, request OptUpdatePetWithFormReq, params UpdatePetWithFormParams) (res *Error, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updatePetWithForm"),
 	}

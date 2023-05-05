@@ -85,7 +85,7 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 		}
 	}()
 
-	var response *AddPetMethodNotAllowed
+	var response *Error
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:       ctx,
@@ -108,7 +108,7 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 		type (
 			Request  = *Pet
 			Params   = AddPetParams
-			Response = *AddPetMethodNotAllowed
+			Response = *Error
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -119,12 +119,12 @@ func (s *Server) handleAddPetRequest(args [0]string, argsEscaped bool, w http.Re
 			mreq,
 			unpackAddPetParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				err = s.h.AddPet(ctx, request, params)
+				response, err = s.h.AddPet(ctx, request, params)
 				return response, err
 			},
 		)
 	} else {
-		err = s.h.AddPet(ctx, request, params)
+		response, err = s.h.AddPet(ctx, request, params)
 	}
 	if err != nil {
 		recordError("Internal", err)
@@ -600,7 +600,7 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 		return
 	}
 
-	var response *DeletePetBadRequest
+	var response *Error
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:       ctx,
@@ -623,7 +623,7 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 		type (
 			Request  = struct{}
 			Params   = DeletePetParams
-			Response = *DeletePetBadRequest
+			Response = *Error
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -634,12 +634,12 @@ func (s *Server) handleDeletePetRequest(args [1]string, argsEscaped bool, w http
 			mreq,
 			unpackDeletePetParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				err = s.h.DeletePet(ctx, params)
+				response, err = s.h.DeletePet(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		err = s.h.DeletePet(ctx, params)
+		response, err = s.h.DeletePet(ctx, params)
 	}
 	if err != nil {
 		recordError("Internal", err)
@@ -1917,7 +1917,7 @@ func (s *Server) handleUpdatePetWithFormRequest(args [1]string, argsEscaped bool
 		}
 	}()
 
-	var response *UpdatePetWithFormMethodNotAllowed
+	var response *Error
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:       ctx,
@@ -1936,7 +1936,7 @@ func (s *Server) handleUpdatePetWithFormRequest(args [1]string, argsEscaped bool
 		type (
 			Request  = OptUpdatePetWithFormReq
 			Params   = UpdatePetWithFormParams
-			Response = *UpdatePetWithFormMethodNotAllowed
+			Response = *Error
 		)
 		response, err = middleware.HookMiddleware[
 			Request,
@@ -1947,12 +1947,12 @@ func (s *Server) handleUpdatePetWithFormRequest(args [1]string, argsEscaped bool
 			mreq,
 			unpackUpdatePetWithFormParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				err = s.h.UpdatePetWithForm(ctx, request, params)
+				response, err = s.h.UpdatePetWithForm(ctx, request, params)
 				return response, err
 			},
 		)
 	} else {
-		err = s.h.UpdatePetWithForm(ctx, request, params)
+		response, err = s.h.UpdatePetWithForm(ctx, request, params)
 	}
 	if err != nil {
 		recordError("Internal", err)
