@@ -5,6 +5,10 @@
 - [ogen](https://github.com/ogen-go/ogen)
 - [oapi-codegen](https://github.com/deepmap/oapi-codegen)
 
+## API Documents
+
+https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/p1ass/openapi-playground/main/openapi.yaml
+
 ## How to Generate
 
 ```shell
