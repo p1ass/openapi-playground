@@ -47,9 +47,6 @@ info:
     name: API Support
     email: apiteam@swagger.io
     url: https://github.com/Redocly/redoc
-  x-logo:
-    url: 'https://redocly.github.io/redoc/petstore-logo.png'
-    altText: Petstore logo
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -116,37 +113,16 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-      x-codeSamples:
-        - lang: 'C#'
-          source: |
-            PetStore.v1.Pet pet = new PetStore.v1.Pet();
-            pet.setApiKey("your api key");
-            pet.petType = PetStore.v1.Pet.TYPE_DOG;
-            pet.name = "Rex";
-            // set other fields
-            PetStoreResponse response = pet.create();
-            if (response.statusCode == HttpStatusCode.Created)
-            {
-              // Successfully created
-            }
-            else
-            {
-              // Something wrong -- check response for errors
-              Console.WriteLine(response.getRawResponse());
-            }
-        - lang: PHP
-          source: |
-            $form = new \PetStore\Entities\Pet();
-            $form->setPetType("Dog");
-            $form->setName("Rex");
-            // set other fields
-            try {
-                $pet = $client->pets()->create($form);
-            } catch (UnprocessableEntityException $e) {
-                var_dump($e->getErrors());
-            }
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        content:
+          application/json:
+            schema:
+              allOf:
+                - description: My Pet
+                  title: Pettie
+                - $ref: '#/components/schemas/Pet'
+        description: Pet object that needs to be added to the store
+        required: true
     put:
       tags:
         - pet
@@ -164,21 +140,16 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-      x-codeSamples:
-        - lang: PHP
-          source: |
-            $form = new \PetStore\Entities\Pet();
-            $form->setPetId(1);
-            $form->setPetType("Dog");
-            $form->setName("Rex");
-            // set other fields
-            try {
-                $pet = $client->pets()->update($form);
-            } catch (UnprocessableEntityException $e) {
-                var_dump($e->getErrors());
-            }
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        content:
+          application/json:
+            schema:
+              allOf:
+                - description: My Pet
+                  title: Pettie
+                - $ref: '#/components/schemas/Pet'
+        description: Pet object that needs to be added to the store
+        required: true
   '/pet/{petId}':
     get:
       tags:
@@ -200,9 +171,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
         '400':
@@ -336,11 +304,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
       security:
@@ -375,13 +338,6 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                maxItems: 999
-                items:
-                  maxItems: 111
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid tag value
@@ -421,9 +377,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Order'
         '400':
@@ -466,9 +419,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
         '400':
           description: Invalid ID supplied
         '404':
@@ -488,7 +438,7 @@ paths:
           required: true
           schema:
             type: string
-            minimum: 1
+#            minimum: 1
       responses:
         '400':
           description: Invalid ID supplied
@@ -563,20 +513,6 @@ paths:
                         status:
                           type: string
                           example: 'inProgress'
-                  application/xml:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -592,35 +528,6 @@ paths:
                   description: Response for cancelling subscription
                 '500':
                   description: Callback processing failed and retries will be performed
-              x-codeSamples:
-                - lang: 'C#'
-                  source: |
-                    PetStore.v1.Pet pet = new PetStore.v1.Pet();
-                    pet.setApiKey("your api key");
-                    pet.petType = PetStore.v1.Pet.TYPE_DOG;
-                    pet.name = "Rex";
-                    // set other fields
-                    PetStoreResponse response = pet.create();
-                    if (response.statusCode == HttpStatusCode.Created)
-                    {
-                      // Successfully created
-                    }
-                    else
-                    {
-                      // Something wrong -- check response for errors
-                      Console.WriteLine(response.getRawResponse());
-                    }
-                - lang: PHP
-                  source: |
-                    $form = new \PetStore\Entities\Pet();
-                    $form->setPetType("Dog");
-                    $form->setName("Rex");
-                    // set other fields
-                    try {
-                        $pet = $client->pets()->create($form);
-                    } catch (UnprocessableEntityException $e) {
-                        var_dump($e->getErrors());
-                    }
             put:
               description: Order in Progress (Only Description)
               servers:
@@ -644,20 +551,6 @@ paths:
                         status:
                           type: string
                           example: 'inProgress'
-                  application/xml:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -760,9 +653,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
         '400':
           description: Invalid username supplied
         '404':
@@ -821,7 +711,14 @@ paths:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+        description: List of user object
+        required: true
   /user/createWithList:
     post:
       tags:
@@ -833,7 +730,14 @@ paths:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+        description: List of user object
+        required: true
   /user/login:
     get:
       tags:
@@ -875,12 +779,6 @@ paths:
               examples:
                 response:
                   value: OK
-            application/xml:
-              schema:
-                type: string
-              examples:
-                response:
-                  value: <Message> OK </Message>
             text/plain:
               examples:
                 response:
@@ -945,8 +843,6 @@ components:
             prop1:
               type: string
               description: Dumb Property
-      xml:
-        name: Category
     Dog:
       description: A representation of a dog
       allOf:
@@ -1014,19 +910,18 @@ components:
           description: Unique Request Id
           type: string
           writeOnly: true
-      xml:
-        name: Order
     Pet:
       type: object
       required:
         - name
         - photoUrls
-      discriminator:
-        propertyName: petType
-        mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
+# oapi-codegenでは対応していなかった
+#      discriminator:
+#        propertyName: petType
+#        mapping:
+#          cat: '#/components/schemas/Cat'
+#          dog: '#/components/schemas/Dog'
+#          bee: '#/components/schemas/HoneyBee'
       properties:
         id:
           externalDocs:
@@ -1047,9 +942,6 @@ components:
           description: The list of URL to a cute photos featuring pet
           type: array
           maxItems: 20
-          xml:
-            name: photoUrl
-            wrapped: true
           items:
             type: string
             format: url
@@ -1060,9 +952,6 @@ components:
           description: Tags attached to the pet
           type: array
           minItems: 1
-          xml:
-            name: tag
-            wrapped: true
           items:
             $ref: '#/components/schemas/Tag'
         status:
@@ -1075,8 +964,6 @@ components:
         petType:
           description: Type of a pet
           type: string
-      xml:
-        name: Pet
     Tag:
       type: object
       properties:
@@ -1088,8 +975,6 @@ components:
           description: Tag name
           type: string
           minLength: 1
-      xml:
-        name: Tag
     User:
       type: object
       properties:
@@ -1140,52 +1025,22 @@ components:
         addresses:
           type: array
           minItems: 0
-          maxLength: 10
+#          maxLength: 10
           items:
-            - type: object
-              properties:
-                city:
-                  type: string
-                  minLength: 0
-                country:
-                  type: string
-                  minLength: 0
-                street:
-                  description: includes build/apartment number
-                  type: string
-                  minLength: 0
-            - type: number
-          additionalItems:
-            type: string
-      xml:
-        name: User
-  requestBodies:
-    Pet:
-      content:
-        application/json:
-          schema:
-            allOf:
-              - description: My Pet
-                title: Pettie
-              - $ref: '#/components/schemas/Pet'
-        application/xml:
-          schema:
-            type: 'object'
-            properties:
-              name:
-                type: string
-                description: hooray
-      description: Pet object that needs to be added to the store
-      required: true
-    UserArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
-      description: List of user object
-      required: true
+            $ref: '#/components/schemas/Address'
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+          minLength: 0
+        country:
+          type: string
+          minLength: 0
+        street:
+          description: includes build/apartment number
+          type: string
+          minLength: 0
   securitySchemes:
     petstore_auth:
       description: |
@@ -1212,19 +1067,3 @@ components:
         shipDate: '2018-10-19T16:46:45Z'
         status: placed
         complete: false
-x-webhooks:
-  newPet:
-    post:
-      summary: New pet
-      description: Information about a new pet in the systems
-      operationId: newPet
-      tags:
-        - pet
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-      responses:
-        '200':
-          description: Return a 200 status to indicate that the data was received successfully
