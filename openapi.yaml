@@ -1025,7 +1025,6 @@ components:
         addresses:
           type: array
           minItems: 0
-#          maxLength: 10
           items:
             $ref: '#/components/schemas/Address'
     Address:
